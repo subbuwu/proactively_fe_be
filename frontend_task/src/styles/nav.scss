@@ -4,7 +4,6 @@ nav {
     border-bottom: 1px solid #EAEAEA;
     position: relative;
     z-index: 10;
-    
 }
 
 .nav_container {
@@ -60,21 +59,36 @@ hr {
 
 .blur {
     background-color: rgba(207, 225, 240, 0.7);
-    filter: blur(24px); 
+    filter: blur(20px);
+    -webkit-filter: blur(20px);  
     position: absolute;
-    right: -50px;
+    right: 0;
     top: 20px; 
     border-radius: 50%; 
     z-index: -1; 
-    width: 200px; 
-    height: 200px; 
+    width: 100px; 
+    height: 100px; 
 
 }
 
-@media screen and (max-width : 1000px) {
+@media screen and (max-width : 1200px) {
     .ul_container,.blur {
         display: none;
     }
+
+    nav {
+        padding-inline: 80px;
+    }
 }
 
+
+@media screen and (max-width : 600px) {
+    .ul_container,.blur {
+        display: none;
+    }
+
+    nav {
+        padding-inline: 30px;
+    }
+}
 
