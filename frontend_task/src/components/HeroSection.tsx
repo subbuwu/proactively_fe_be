@@ -1,9 +1,16 @@
 import "../styles/hero.scss";
+import HorizontalLoopSlider from "./HorizontalLoopSlider";
+import SearchBox from "./SearchBox";
 import VerticalLoopSlider from "./VerticalLoopSlider";
 
 const HeroSection = () => {
   return (
-    <section style={{position : 'relative'}}>
+    <section className="hero_section_wrapper" style={{position : 'relative'}}>
+      <HorizontalLoopSlider/> 
+      <div className="search_box_container">
+        <SearchBox/>
+      </div>
+
       <div className="hero_container">
         <div className="hero_blurred_div"></div>
         <div className="slider_container">
@@ -13,7 +20,7 @@ const HeroSection = () => {
         <div className="hero_header_container">
           <div className="text_wrapper">
             <h1>
-              Book an appointment with <br />
+              Book an appointment with <br className="break_tag"/>
               <span>lifestyle medicine</span> experts
             </h1>
 
