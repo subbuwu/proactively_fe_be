@@ -1,106 +1,92 @@
-"use client"
-import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/swiper.min.css'
-import 'swiper/modules/pagination/pagination.min.css'
-import 'swiper/modules/navigation/navigation.min.css'
-import "../styles/how_it_works.scss";
-import HowItWorksCard from "./HowItWorksCard";
-import { Navigation, Pagination } from 'swiper/modules';
+import { useState, useRef } from "react";
+import { HowItWorksCard } from "./HowItWorksCard";
+import "../styles/how_it_works.scss"
 
-const HowItWorks = () => {
+export const HowItWorks = () => {
   const [selectedTab, setSelectedTab] = useState(1);
+  const sliderRef = useRef<any>(null);
 
-  const handleTabClick = (tabIdx: number) => {
+  const handleTabClick = (tabIdx : number) => {
     setSelectedTab(tabIdx);
+    scrollToCard(tabIdx - 1);
   };
 
-  const handleSlideChange = (swiper: any) => {
-    setSelectedTab(swiper.activeIndex + 1);
+  const scrollToCard = (index : number) => {
+    if (sliderRef.current) {
+      const cardWidth = sliderRef.current.children[0].offsetWidth;
+      const scrollPosition = index * (cardWidth + 24); // 24px is the gap
+      sliderRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
-  const tabs = [
-    "Nutrition",
-    "Physical Activity",
-    "Restorative sleep",
-    "Stress management",
-    "Social connection",
-    "Substance abuse",
-  ];
-
-  const cards = [
-    {
-      title: "Nutrition",
-      desc: "Evidence supports the use of a whole food, plant-predominant diet to prevent, treat and reverse chronic illness.",
-      imgSrc: "./card_img11.png",
-      iconSrc: "./health_heart.svg",
-      imgTextNumber: "121/80",
-      imgTextUnit: "mmHg",
-    },
-    {
-      title: "Physical activity",
-      desc: "Regular physical activity is key to managing weight, improving mental health, and reducing risk of chronic disease.",
-      imgSrc: "./card_img22.png",
-      iconSrc: "./heart1.svg",
-      imgTextNumber: "32",
-      imgTextUnit: "minutes",
-    },
-    // Add remaining card details here...
-  ];
+  const handleArrowClick = (direction : string) => {
+    const newTab = direction === 'left' 
+      ? Math.max(1, selectedTab - 1)
+      : Math.min(6, selectedTab + 1);
+    setSelectedTab(newTab);
+    scrollToCard(newTab - 1);
+  };
 
   return (
-    <section className="how_it_works_container">
-      <p>how it works</p>
+    <section className="how-it-works">
+      <p className="subtitle">how it works</p>
 
-      <div className="how_it_works_header">
-        <div className="how_it_works_gradient_blur"></div>
+      <div className="header">
         <h2>
-          <span>Lifestyle as medicine:</span> The six pillars
+          <span>Lifestyle as medicine:</span> <p>The six pillars</p>
         </h2>
 
-        <div className="slider_navigation_container">
-          <div className="arrow left_arrow swiper-button-prev">
+        <div className="navigation">
+          <button 
+            className="arrow-btn" 
+            onClick={() => handleArrowClick('left')}
+            disabled={selectedTab === 1}
+          >
             <i className="fa-solid fa-arrow-left"></i>
-          </div>
-          <div className="arrow right_arrow swiper-button-next">
+          </button>
+          <button 
+            className="arrow-btn"
+            onClick={() => handleArrowClick('right')}
+            disabled={selectedTab === 6}
+          >
             <i className="fa-solid fa-arrow-right"></i>
-          </div>
+          </button>
         </div>
       </div>
 
-      <div className="how_it_works_tabs">
-        {tabs.map((tab, index) => (
-          <div
-            key={index}
-            id={`tab_${index + 1}`}
-            className={`${selectedTab === index + 1 && "active_tab"}`}
-            onClick={() => handleTabClick(index + 1)}
+      <div className="tabs">
+        {[
+          "Nutrition",
+          "Physical Activity",
+          "Restorative sleep",
+          "Stress management",
+          "Social connection",
+          "Substance abuse"
+        ].map((tab, idx) => (
+          <button
+            key={idx}
+            className={`tab ${selectedTab === idx + 1 ? 'active' : ''}`}
+            onClick={() => handleTabClick(idx + 1)}
           >
             {tab}
-          </div>
+          </button>
         ))}
       </div>
 
-      <Swiper
-        modules={[Navigation, Pagination]}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        }}
-        onSlideChange={handleSlideChange}
-        slidesPerView={1}
-        spaceBetween={20}
-        pagination={{ clickable: true }}
-        className="card_slider"
-      >
-        {cards.map((card, index) => (
-          <SwiperSlide key={index}>
-            <HowItWorksCard {...card} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="slider-wrapper">
+        <div className="slider" ref={sliderRef}>
+        <HowItWorksCard title="Nutrition" desc="Evidence supports the use of a whole food, plant-predominant diet to prevent, treat and reverse chronic illness." imgSrc="./card_img11.png" iconSrc="./health_heart.svg" imgTextNumber="121/80" imgTextUnit="mmHg" />
+          <HowItWorksCard title="Physical activity" desc="Regular physical activity is key to managing weight, improving mental health, and reducing risk of chronic disease." imgSrc="./card_img22.png" iconSrc="./heart1.svg" imgTextNumber="32" imgTextUnit="minutes" />
+          <HowItWorksCard title="Restorative sleep" desc="Consistent, quality sleep is essential for cognitive function and physical health." imgSrc="./card_img33.png" iconSrc="./sleep.svg" imgTextNumber="8" imgTextUnit="hours" />
+          <HowItWorksCard title="Stress management" desc="Effective stress management techniques are crucial for mental well-being and overall health.." imgSrc="./card_img44.png" iconSrc="./heart1.svg" imgTextNumber="60" imgTextUnit="bpm" />
+          <HowItWorksCard title="Social connection" desc="Strong social connections are associated with a lower risk of many chronic diseases and enhanced mental health." imgSrc="./card_img55.png" iconSrc="./heart2.svg" imgTextNumber="Feeling" imgTextUnit="better" />
+          <HowItWorksCard title="Substance abuse" desc="Avoiding tobacco, limiting alcohol use, and abstaining from harmful substances are vital for long-term health." imgSrc="./card_img66.png" iconSrc="./clock.svg" imgTextNumber="62" imgTextUnit="days" />
+
+        </div>
+      </div>
     </section>
   );
 };
-
-export default HowItWorks;

@@ -6,6 +6,11 @@
     position: relative;
     z-index: 10;
     padding-inline: 120px;
+
+    @media screen and (max-width: 1200px) {
+      z-index: 1;
+      
+    }
   }
   
   .slider_container,
@@ -84,6 +89,10 @@
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    @media screen and (max-width: 1200px) {
+      z-index: 1;
+    }
   }
 
   @media (max-width: 1200px) {
@@ -135,7 +144,7 @@
     }
 
     .search_box_container {
-      z-index: 20;
+      z-index: 1;
       top: 0;
       left: 0;
       transform: translate(0, 0);
