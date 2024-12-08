@@ -1,6 +1,12 @@
+import "../styles/how_it_works.scss"
+
 const HowItWorks = () => {
   return (
-    <section>
+    <section className="how_it_works_container">
+        <p>
+            how it works
+        </p>
+
         
     </section>
   )
