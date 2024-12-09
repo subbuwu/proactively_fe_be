@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  USER
+  SPEAKER
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  firstName   String    @db.VarChar(50)
+  lastName    String    @db.VarChar(50)
+  email       String    @unique @db.VarChar(100)
+  password    String    
+  isVerified  Boolean   @default(false)
+  userType    UserType
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  speaker     Speaker?
+  bookings    Booking[]
+}
+
+model Speaker {
+  id             Int       @id @default(autoincrement())
+  expertise      String    @db.VarChar(100)
+  pricePerSession Float    
+  userId         Int       @unique
+  User           User      @relation(fields: [userId], references: [id])
+  bookings       Booking[]
+}
+
+model Booking {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  speakerId  Int
+  dateTime   DateTime
+  user       User     @relation(fields: [userId], references: [id])
+  speaker    Speaker  @relation(fields: [speakerId], references: [id])
+  
+  @@unique([speakerId, dateTime])
+}

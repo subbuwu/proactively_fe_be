@@ -35,6 +35,7 @@ export const HowItWorks = () => {
       <p className="subtitle">how it works</p>
 
       <div className="header">
+        <div className="gradient-blur"></div>
         <h2>
           <span>Lifestyle as medicine:</span> <p>The six pillars</p>
         </h2>
