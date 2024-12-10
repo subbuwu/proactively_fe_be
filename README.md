@@ -1,4 +1,4 @@
-# Frontend UI Task
+# Frontend UI Task [Deployed Link](https://proactively-fe-subbu.vercel.app/)
 
 ## Overview
 This project involves building a user interface (UI) using React and SCSS of the figma file given in [Figma](https://www.figma.com/design/wwc4WEkrkQi1K5DkV4938N/Frontend-Task?node-id=0-1&node-type=canvas&t=Kkl0BtQ4KU1nMvUc-0). The task is focused on creating responsive and reusable components, styling them with SCSS, and ensuring the UI is functional and aesthetically pleasing.
@@ -16,6 +16,9 @@ This project involves building a user interface (UI) using React and SCSS of the
 *---------------------------------------------------*
 
 # Backend Task : Speaker Booking Platform
+
+<img width="1800" alt="Screenshot 2024-12-10 at 3 02 58 PM" src="https://github.com/user-attachments/assets/d0b8ff2c-bde0-40bb-87d7-2558f02ebb0b">
+
 ## 🛠️ Tech Stack
 
 - **Node.js**: Backend runtime environment.
