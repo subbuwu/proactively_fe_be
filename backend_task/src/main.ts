@@ -4,7 +4,8 @@ import { Request,Response } from 'express';
 import morgan from 'morgan'
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import userRoutes from './routes/userRoutes'
+import userRoutes from '@/routes/userRoutes'
+import speakerRoutes from '@/routes/speakerRoutes'
 
 dotenv.config();
 const app = express();
@@ -19,22 +20,23 @@ const swaggerOptions = {
       },
     },
     apis: [
-        './src/routes/*.ts',  // Absolute or relative to project root
-        './src/routes/*.js'   // Include JS if transpiling
+        './src/routes/*.ts',  
+        './src/routes/*.js'   
       ], 
   };
   
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
+app.use(express.json())
 app.use(morgan('tiny'))
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 
 app.get('/', (req : Request, res : Response) => {
   res.send('Express + TypeScript Server');
 });
 
 app.use('/users',userRoutes)
+app.use('/speakers',speakerRoutes)
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

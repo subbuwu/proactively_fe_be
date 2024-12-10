@@ -3,7 +3,7 @@ import { generateOTP } from "@/utils/otpGenerator";
 import { prisma, transporter } from "@/config";
 import { addMinutes } from 'date-fns';  
 
-export const userAuthSignUp = async (req: Request, res: Response) => {
+export const speakerAuthSignUp = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
 
     if (!firstName || !lastName || !email || !password) {
@@ -22,13 +22,13 @@ export const userAuthSignUp = async (req: Request, res: Response) => {
 
         if (existingUser) {
             res.status(400).json({
-                msg: "User already exists",
+                msg: "Speaker already exists",
             });
         }
 
         // Generate OTP
         const otp = generateOTP();
-        const otpExpiry = addMinutes(new Date(), 10); // OTP valid for 10 minutes
+        const otpExpiry = addMinutes(new Date(), 10); 
 
         const user = await prisma.user.create({
             data: {
@@ -37,7 +37,7 @@ export const userAuthSignUp = async (req: Request, res: Response) => {
                 firstName,
                 password,
                 isVerified: false,
-                userType: 'USER',
+                userType: 'SPEAKER',
                 otp,
                 otpExpiry,
             },
@@ -46,7 +46,7 @@ export const userAuthSignUp = async (req: Request, res: Response) => {
         const mailOptions = {
             from: `"Subramanian | Proactively" <${process.env.EMAIL}>`,
             to: email,
-            subject: "OTP for User Verification",
+            subject: "Speaker OTP for User Verification",
             html: `<p>Your OTP is: <strong>${otp}</strong></p>`,
         };
 
@@ -54,7 +54,7 @@ export const userAuthSignUp = async (req: Request, res: Response) => {
             const info = await transporter.sendMail(mailOptions);
 
             res.status(201).json({
-                msg: "User created successfully. Please verify your email.",
+                msg: "Speaker User created successfully. Please verify your email.",
                 info,
             });
         } catch (error: any) {

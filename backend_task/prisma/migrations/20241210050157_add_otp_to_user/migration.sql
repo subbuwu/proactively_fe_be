@@ -4,6 +4,8 @@ CREATE TABLE `User` (
     `firstName` VARCHAR(50) NOT NULL,
     `lastName` VARCHAR(50) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
+    `otp` VARCHAR(191) NULL,
+    `otpExpiry` DATETIME(3) NULL,
     `password` VARCHAR(191) NOT NULL,
     `isVerified` BOOLEAN NOT NULL DEFAULT false,
     `userType` ENUM('USER', 'SPEAKER') NOT NULL,

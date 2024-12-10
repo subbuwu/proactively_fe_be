@@ -1,18 +1,19 @@
 import { Router } from 'express';
-import { userAuthSignUp, verifyOtp } from '@/controllers/userAuthController';
+import { speakerAuthSignUp } from '@/controllers/speakerAuthController';  // Assuming you have a controller for auth
+import { verifyOtp } from '@/controllers/userAuthController';
 import { commonLoginController } from './commonLoginController';
-import { bookSpeakerController, speakerViewController } from '@/controllers/userViewBookController';
+import { speakerProfileSetupController } from '@/controllers/speakerProfileSetupController';
 import { authMiddleware } from '@/middlewares/authMiddleware';
 
 const router: Router = Router();
 
-// Swagger documentation for POST /users/signup
+// Swagger documentation for POST /speakers/signup
 /**
  * @swagger
- * /users/signup:
+ * /speakers/signup:
  *   post:
- *     summary: User sign-up
- *     description: Creates a new user with the provided details and sends OTP for verification.
+ *     summary: Speaker User sign-up
+ *     description: Creates a new speaker user with the provided details and sends OTP for verification.
  *     requestBody:
  *       required: true
  *       content:
@@ -22,17 +23,17 @@ const router: Router = Router();
  *             properties:
  *               firstName:
  *                 type: string
- *                 description: The user's first name
+ *                 description: The speaker user's first name
  *               lastName:
  *                 type: string
- *                 description: The user's last name
+ *                 description: The speaker user's last name
  *               email:
  *                 type: string
  *                 format: email
- *                 description: The user's email address
+ *                 description: The speaker user's email address
  *               password:
  *                 type: string
- *                 description: The user's password
+ *                 description: The speaker user's password
  *             required:
  *               - firstName
  *               - lastName
@@ -48,7 +49,7 @@ const router: Router = Router();
  *               properties:
  *                 msg:
  *                   type: string
- *                   example: "User created successfully. Please verify your email."
+ *                   example: "Speaker User created successfully. Please verify your email."
  *       400:
  *         description: Missing required inputs or user already exists
  *         content:
@@ -68,14 +69,16 @@ const router: Router = Router();
  *                 errorMsg:
  *                   type: string
  */
-router.post('/signup', userAuthSignUp);
+router.post('/signup', speakerAuthSignUp);
 
+
+// Swagger documentation for POST /speakers/verifyOtp
 /**
  * @swagger
- * /users/verifyOtp:
+ * /speaker/verifyOtp:
  *   post:
  *     summary: Verify OTP
- *     description: Verifies the OTP sent to the user's email to complete the registration process.
+ *     description: Verifies the OTP sent to the speaker user's email to complete the registration process.
  *     requestBody:
  *       required: true
  *       content:
@@ -86,16 +89,16 @@ router.post('/signup', userAuthSignUp);
  *               email:
  *                 type: string
  *                 format: email
- *                 description: The user's email address
+ *                 description: The speaker user's email address
  *               otp:
  *                 type: string
- *                 description: The OTP sent to the user's email
+ *                 description: The OTP sent to the speaker user's email
  *             required:
  *               - email
  *               - otp
  *     responses:
  *       200:
- *         description: OTP successfully verified, user is now verified
+ *         description: OTP successfully verified, speaker user is now verified
  *         content:
  *           application/json:
  *             schema:
@@ -103,7 +106,7 @@ router.post('/signup', userAuthSignUp);
  *               properties:
  *                 msg:
  *                   type: string
- *                   example: "OTP verified successfully, user is now verified"
+ *                   example: "OTP verified successfully, speaker user is now verified"
  *       400:
  *         description: OTP has expired or is invalid
  *         content:
@@ -114,7 +117,7 @@ router.post('/signup', userAuthSignUp);
  *                 errorMsg:
  *                   type: string
  *       404:
- *         description: User not found
+ *         description:Speaker User not found
  *         content:
  *           application/json:
  *             schema:
@@ -132,11 +135,11 @@ router.post('/signup', userAuthSignUp);
  *                 errorMsg:
  *                   type: string
  */
+
 router.post('/verifyOtp', verifyOtp);
 
 router.post('/login', commonLoginController);
 
-router.get('/list-speakers',authMiddleware,speakerViewController)
+router.post('/profilesetup',authMiddleware,speakerProfileSetupController);
 
-router.post('/book',authMiddleware,bookSpeakerController)
 export default router;
