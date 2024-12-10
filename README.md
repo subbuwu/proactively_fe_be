@@ -11,48 +11,55 @@
 - **Prisma**: Database ORM for managing data models and querying the database.
 - **Google APIs**: Used for Google Calendar integration to handle booking events and schedules.
 - **Nodemailer**: Sends email notifications for booking confirmations and updates.
+- **SwaggerDocs + UI**: Provides API Documentation at /docs endpoint.
 
----
+## 📊 Database Schema
 
-## 🚀 Features
+### User Table
+- **id**: Primary key, auto-incremented.
+- **firstName**: String (max 50 characters).
+- **lastName**: String (max 50 characters).
+- **email**: Unique, String (max 100 characters).
+- **otp**: String (nullable).
+- **otpExpiry**: DateTime (nullable).
+- **password**: String.
+- **isVerified**: Boolean (default: false).
+- **userType**: Enum (USER, SPEAKER).
+- **createdAt**: DateTime (default: now).
+- **updatedAt**: DateTime (auto-updated).
+- **speaker**: Relation to Speaker.
+- **bookings**: Relation to Booking.
 
-### Users
-- **Signup/Login**: 
-  - Endpoints to register and authenticate users securely.
-  - User roles: `USER` and `SPEAKER`.
-  
-### Speakers
-- **Profile Setup**:
-  - Create or update expertise and session pricing details.
-  
-- **Booking Management**:
-  - View available time slots for a specific date.
-  - Book time slots with speakers.
+### Speaker Table
+- **id**: Primary key, auto-incremented.
+- **expertise**: String (max 100 characters).
+- **pricePerSession**: Float.
+- **userId**: Unique, foreign key to User.
+- **bookings**: Relation to Booking.
 
-### Notifications
-- **Google Calendar Integration**:
-  - Automatically creates calendar events for confirmed bookings.
-- **Email Notifications**:
-  - Sends booking confirmation emails to both users and speakers.
+### Booking Table
+- **id**: Primary key, auto-incremented.
+- **userId**: Foreign key to User.
+- **speakerId**: Foreign key to Speaker.
+- **dateTime**: DateTime (unique per speaker).
 
----
 
 ## 📜 API Routes
-## Visit /docs after setting up local server to see more
+## Checkout /docs endpoint after runnning local server to see swagger docs
 
 ### Authentication
-- **`POST /signup`**: User registration.
-- **`POST /login`**: User login to receive authentication tokens.
+- **`POST /signup`**: User (USER + SPEAKER) registration.
+- **`POST /login`**: User (USER + SPEAKER) login to receive authentication tokens.
 
-### Speaker Profile Management
-- **`POST /speaker/profile`**: Create or update speaker profiles.
+### Speaker Profile Management (FOR SPEAKER)
+- **`POST /speakers/profile`**: Create or update speaker profiles.
   - **Requires authentication as `SPEAKER`.**
 
-### Time Slot Viewing 
+### Time Slot Viewing (FOR USER->USER)
 - **`GET /users/list-speakers?date=YYYY-MM-DD`**: Fetch available time slots for speakers on a specific date.
   - **Requires authentication.**
 
-### Booking
+### Booking (FOR USER->USER)
 - **`POST /users/book`**: Book a speaker for a specific time slot.
   - **Requires authentication as `USER`.**
 
