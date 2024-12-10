@@ -17,7 +17,6 @@ This project involves building a user interface (UI) using React and SCSS of the
 
 # Backend Task : Speaker Booking Platform
 ## Required .env variables :
-` 
   PORT = 
   DATABASE_URL=""
   EMAIL=
@@ -27,7 +26,6 @@ This project involves building a user interface (UI) using React and SCSS of the
   GOOGLE_CLIENT_SECRET=
   GOOGLE_REDIRECT_URI=
   GOOGLE_REFRESH_TOKEN=
-`
 <img width="1800" alt="Screenshot 2024-12-10 at 3 02 58 PM" src="https://github.com/user-attachments/assets/d0b8ff2c-bde0-40bb-87d7-2558f02ebb0b">
 
 ## 🛠️ Tech Stack
