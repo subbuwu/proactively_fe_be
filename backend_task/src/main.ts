@@ -6,25 +6,12 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import userRoutes from '@/routes/userRoutes'
 import speakerRoutes from '@/routes/speakerRoutes'
+import { swaggerOptions } from './config/swagger';
 
 dotenv.config();
-const app = express();
 
+const app = express();
 const port = process.env.PORT;
-const swaggerOptions = {
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Proactively Backend Task - Subramanian - nsubbu2004@gmail.com',
-        version: '1.0.0',
-      },
-    },
-    apis: [
-        './src/routes/*.ts',  
-        './src/routes/*.js'   
-      ], 
-  };
-  
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use(express.json())
@@ -32,7 +19,7 @@ app.use(morgan('tiny'))
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req : Request, res : Response) => {
-  res.send('Express + TypeScript Server');
+  res.send('Proactively Backend Task');
 });
 
 app.use('/users',userRoutes)

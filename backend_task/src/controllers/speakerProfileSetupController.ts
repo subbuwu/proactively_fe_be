@@ -6,7 +6,7 @@ export const speakerProfileSetupController = async (req: Request, res: Response)
     // @ts-ignore
     if (req.user.userType !== 'SPEAKER') {
          res.status(403).json({
-            message: 'Unauthorized access'
+            message: 'Unauthorized access , only speakers can create/update'
         });
         return;
     }
